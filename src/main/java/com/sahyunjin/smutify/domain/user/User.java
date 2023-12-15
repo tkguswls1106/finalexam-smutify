@@ -22,6 +22,10 @@ public class User implements Serializable {
     @Column(name = "username", unique = true)
     private String username;
 
+    @Column(name = "playlistIds", columnDefinition = "TEXT default null")
+    private String playlistIds;
+    // 파싱법: 1p2p...
+
 
     @Builder(builderClassName = "UserAuthBuilder", builderMethodName = "UserAuthBuilder")
     public User(String username) {

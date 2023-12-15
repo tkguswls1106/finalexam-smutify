@@ -1,7 +1,10 @@
 package com.sahyunjin.smutify.controller;
 
+import com.sahyunjin.smutify.domain.playlist.Playlist;
 import com.sahyunjin.smutify.domain.user.User;
+import com.sahyunjin.smutify.dto.playlist.PlaylistResponseDto;
 import com.sahyunjin.smutify.dto.user.UserLoginRequestDto;
+import com.sahyunjin.smutify.dto.user.UserResponseDto;
 import com.sahyunjin.smutify.dto.user.UserSignupRequestDto;
 import com.sahyunjin.smutify.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
@@ -59,7 +63,7 @@ public class UserController {
     @PostMapping("/login")  // 로그인 처리
     public String login(@ModelAttribute UserLoginRequestDto userLoginRequestDto, HttpSession session) {
         try {
-            User loginUser = userService.login(userLoginRequestDto);
+            UserResponseDto loginUser = userService.login(userLoginRequestDto);
 
             session.setAttribute("user", loginUser);
 

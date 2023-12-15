@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Main 페이지</title>
+</head>
+
+<body>
+  <h1>Main 페이지</h1>
+
+  <br>
+
+  <button th:onclick="'location.href=\'' + @{/users/{userId}/search(userId=${userId})} + '\''">create playlist</button>
+
+  <br>
+
+  <h1>Playlist 목록들(제목)</h1>
+  <ul>
+    <li th:each="playlistResponseDto : ${playlistResponseDtos}">
+      <hr>
+      <strong><span th:text="${feedResponseDto.title}"></span></strong>
+      &nbsp&nbsp
+      <button>삭제</button>
+      <hr>
+    </li>
+  </ul>
+
+</body>
+</html>

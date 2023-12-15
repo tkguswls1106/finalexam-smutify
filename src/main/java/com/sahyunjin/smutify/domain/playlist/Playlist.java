@@ -1,4 +1,4 @@
-package com.sahyunjin.smutify.domain.song;
+package com.sahyunjin.smutify.domain.playlist;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,28 +6,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Table(name = "song_table")
+@Table(name = "playlist")
 @Entity
-public class Song implements Serializable {
+public class Playlist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "singer")
-    private String singer;
-
     @Column(name = "title")
     private String title;
 
-    @Column(name = "genre")
-    private String genre;
+    @Column(name = "content")
+    private String content;
+
+    @Column(name = "songIds", columnDefinition = "TEXT default null")
+    private String songIds;
+    // 파싱법: 1p2p...
 }
