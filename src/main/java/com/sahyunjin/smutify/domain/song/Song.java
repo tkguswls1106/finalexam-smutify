@@ -30,4 +30,8 @@ public class Song implements Serializable {
 
     @Column(name = "genre")
     private String genre;
+
+    @Column(name = "playlistIds", columnDefinition = "TEXT default null")
+    private String playlistIds;
+    // 파싱법: 1p2p...
 }

@@ -26,8 +26,6 @@ public class PlaylistController {
     @GetMapping("/users/{userId}/main")  // playlist 목록들 모두 조회 (제목 오름차순 정렬)
     public String getAllPlaylists(@PathVariable Long userId, Model model, HttpSession session) {
 
-        if(session == null) System.out.println("세션 눌값임!!");
-
         UserResponseDto loginUser;
         try {  // 로그인 체크
             loginUser = loginCheckSession(session);

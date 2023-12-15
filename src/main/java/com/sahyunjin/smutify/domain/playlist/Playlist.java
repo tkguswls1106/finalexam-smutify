@@ -27,6 +27,10 @@ public class Playlist {
     @Column(name = "content")
     private String content;
 
+
+    @Column(name = "makerUserId")
+    private Long makerUserId;
+
     @Column(name = "songIds", columnDefinition = "TEXT default null")
     private String songIds;
     // 파싱법: 1p2p...

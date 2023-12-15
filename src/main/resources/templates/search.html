@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Search 페이지</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+  <h1>Search 페이지</h1>
+
+  <br>
+
+  <!-- 여기 검색창 -->
+
+  <br>
+
+  <h2>노래 목록들</h2>
+  <ul>
+    <li th:each="songResponseDto : ${songResponseDtos}">
+      <hr>
+
+      <strong>-&nbsp&nbsp가수 이름:</strong>&nbsp&nbsp<span th:text="${songResponseDto.singer}"></span>
+      <br>
+      <strong>-&nbsp&nbsp노래 제목:</strong>&nbsp&nbsp<span th:text="${songResponseDto.title}"></span>
+      <br>
+      <strong>-&nbsp&nbsp장르:</strong>&nbsp&nbsp<span th:text="${songResponseDto.genre}"></span>
+      <br><br>
+
+      -------------<br>
+      <button id="toggleButton">플레이리스트에 노래 추가 (내 플레이리스트 목록 조회)</button>
+      <div id="content" style="display: none;">
+        <ul>
+          <li th:each="playlist : ${songResponseDto.playlists}">
+            <strong><span th:text="${playlist.title}" th:if="${playlist.makerUserId == userId}"></span></strong>
+          </li>
+        </ul>
+        <br>
+        <button>새로운 플레이리스트에 노래 추가</button>
+        <br>
+        -------------
+      </div>
+
+      <hr>
+    </li>
+  </ul>
+
+
+  <script th:inline="javascript">
+    $(document).ready(function() {
+        $("#toggleButton").click(function() {
+            $("#content").toggle();
+        });
+    });
+  </script>
+
+</body>
+</html>

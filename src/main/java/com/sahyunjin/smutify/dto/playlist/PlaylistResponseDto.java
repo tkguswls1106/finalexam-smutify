@@ -18,6 +18,7 @@ public class PlaylistResponseDto {
     private Long id;
     private String title;
     private String content;
+    private Long makerUserId;
     private List<Long> songIds;
 
 
@@ -42,6 +43,7 @@ public class PlaylistResponseDto {
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.content = entity.getContent();
+        this.makerUserId = entity.getMakerUserId();
         this.songIds = getSongIdList(entity.getSongIds());
     }
 }
