@@ -40,8 +40,8 @@ public class PlaylistServiceLogic implements PlaylistService {
     @Override
     public void createPlaylistWithSong(Long userId, Long songId, PlaylistNSongRequestDto playlistNSongRequestDto) {
 
-        Playlist entityP = playlistNSongRequestDto.toEntity(userId, songId);
-        playlistJpaRepository.save(entityP);
+        Playlist entity = playlistNSongRequestDto.toEntity(userId, songId);
+        Playlist entityP = playlistJpaRepository.save(entity);
 
         User entityU = userJpaRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("ERROR - 해당 id의 사용자는 존재하지 않습니다."));
@@ -50,19 +50,19 @@ public class PlaylistServiceLogic implements PlaylistService {
 
         String str1;
         if(entityU.getPlaylistIds() != null) {
-            str1 = (entityU.getPlaylistIds() + String.valueOf(songId) + "p");
+            str1 = (entityU.getPlaylistIds() + String.valueOf(entityP.getId()) + "p");
         }
         else {
-            str1 = String.valueOf(songId) + "p";
+            str1 = String.valueOf(entityP.getId()) + "p";
         }
         entityU.updatePlaylistIds(str1);
 
         String str2;
         if(entityS.getPlaylistIds() != null) {
-            str2 = (entityS.getPlaylistIds() + String.valueOf(songId) + "p");
+            str2 = (entityS.getPlaylistIds() + String.valueOf(entityP.getId()) + "p");
         }
         else {
-            str2 = String.valueOf(songId) + "p";
+            str2 = String.valueOf(entityP.getId()) + "p";
         }
         entityS.updatePlaylistIds(str2);
     }
