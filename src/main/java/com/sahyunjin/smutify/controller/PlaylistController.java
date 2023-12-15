@@ -2,6 +2,7 @@ package com.sahyunjin.smutify.controller;
 
 import com.sahyunjin.smutify.domain.playlist.Playlist;
 import com.sahyunjin.smutify.domain.user.User;
+import com.sahyunjin.smutify.dto.playlist.PlaylistAddSongRequestDto;
 import com.sahyunjin.smutify.dto.playlist.PlaylistNSongRequestDto;
 import com.sahyunjin.smutify.dto.playlist.PlaylistResponseDto;
 import com.sahyunjin.smutify.dto.user.UserResponseDto;
@@ -50,7 +51,22 @@ public class PlaylistController {
         return "main";
     }
 
-    @PostMapping(value = "/users/{userId}/playlists/songs/{songId}")
+    @PostMapping("/users/{userId}/playlists/{playlistId}")
+    public String addSongForPlaylist(@PathVariable Long userId, @PathVariable Long playlistId, @ModelAttribute PlaylistAddSongRequestDto playlistAddSongRequestDto, HttpSession session) {
+
+        UserResponseDto loginUser;
+        try {  // 로그인 체크
+            loginUser = loginCheckSession(session);
+        }
+        catch (RuntimeException e) {  // 로그인이 안되어있을시, 로그인창으로 강제 리다이렉트
+            return "redirect:/login";
+        }
+
+        playlistService.addSongForPlaylist(userId, playlistId, playlistAddSongRequestDto);
+        return "redirect:/users/" + loginUser.getId() + "/main";  // main 페이지로 리다이렉트
+    }
+
+    @PostMapping("/users/{userId}/playlists/songs/{songId}")
     public String createPlayListWithSong(@PathVariable Long userId, @PathVariable Long songId, @ModelAttribute PlaylistNSongRequestDto playlistNSongRequestDto, HttpSession session) {
 
         UserResponseDto loginUser;
@@ -62,7 +78,7 @@ public class PlaylistController {
         }
 
         playlistService.createPlaylistWithSong(userId, songId, playlistNSongRequestDto);
-        return "redirect:/users/" + loginUser.getId() + "/search";  // search 페이지로 리다이렉트
+        return "redirect:/users/" + loginUser.getId() + "/main";  // main 페이지로 리다이렉트
     }
 
 

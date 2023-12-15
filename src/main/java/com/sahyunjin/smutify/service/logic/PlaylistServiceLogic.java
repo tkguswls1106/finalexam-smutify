@@ -6,6 +6,7 @@ import com.sahyunjin.smutify.domain.song.Song;
 import com.sahyunjin.smutify.domain.song.SongJapRepository;
 import com.sahyunjin.smutify.domain.user.User;
 import com.sahyunjin.smutify.domain.user.UserJpaRepository;
+import com.sahyunjin.smutify.dto.playlist.PlaylistAddSongRequestDto;
 import com.sahyunjin.smutify.dto.playlist.PlaylistNSongRequestDto;
 import com.sahyunjin.smutify.dto.playlist.PlaylistResponseDto;
 import com.sahyunjin.smutify.dto.user.UserLoginRequestDto;
@@ -34,6 +35,23 @@ public class PlaylistServiceLogic implements PlaylistService {
                 .orElseThrow(() -> new RuntimeException("ERROR - 해당 id의 플레이리스트는 존재하지 않습니다."));
 
         return new PlaylistResponseDto(entity);
+    }
+
+    @Transactional
+    @Override
+    public void addSongForPlaylist(Long userId, Long playlistId, PlaylistAddSongRequestDto playlistAddSongRequestDto) {
+
+        Playlist entity = playlistJpaRepository.findById(playlistId)
+                .orElseThrow(() -> new RuntimeException("ERROR - 해당 id의 플레이리스트는 존재하지 않습니다."));
+
+        String str;
+        if(entity.getSongIds() != null) {
+            str = (entity.getSongIds() + String.valueOf(playlistAddSongRequestDto.getSongId()) + "p");
+        }
+        else {
+            str = String.valueOf(playlistAddSongRequestDto.getSongId()) + "p";
+        }
+        entity.updateSongIds(str);
     }
 
     @Transactional

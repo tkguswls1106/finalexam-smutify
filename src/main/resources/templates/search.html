@@ -34,8 +34,11 @@
         <strong><div>+ 기존의 내 플레이리스트에 노래 추가</div></strong>
         <ul>
           <li th:each="playlist : ${songResponseDto.playlists}">
-            <strong><span th:text="${playlist.title}" th:if="${playlist.makerUserId == userId}"></span></strong>
-            &nbsp<button type="submit">추가완료</button>
+            <strong><span th:text="${playlist.title}" th:if="${playlist.makerUserId == userId}"></span></strong>&nbsp
+            <form method="post" style="display: inline;" th:action="@{/users/{userId}/playlists/{playlistId}(userId=${userId},playlistId=${playlist.id})}">
+              <input type="hidden" name="songId" th:value="${songResponseDto.id}">
+              <button type="submit"><- 추가완료</button>
+            </form>
           </li>
         </ul>
         <br>

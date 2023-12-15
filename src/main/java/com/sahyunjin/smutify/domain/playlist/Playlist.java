@@ -40,4 +40,10 @@ public class Playlist {
         this.makerUserId = userId;
         this.songIds = (String.valueOf(songId) + "p");
     }
+
+
+    // 수정(업데이트) 기능
+    public void updateSongIds(String songIdStr) {  // 패스워드 변경 기능
+        this.songIds = songIdStr;
+    }
 }
