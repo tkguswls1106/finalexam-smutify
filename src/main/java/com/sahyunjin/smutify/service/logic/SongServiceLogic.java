@@ -1,7 +1,5 @@
 package com.sahyunjin.smutify.service.logic;
 
-import com.sahyunjin.smutify.domain.playlist.Playlist;
-import com.sahyunjin.smutify.domain.playlist.PlaylistJpaRepository;
 import com.sahyunjin.smutify.domain.song.Song;
 import com.sahyunjin.smutify.domain.song.SongJapRepository;
 import com.sahyunjin.smutify.dto.playlist.PlaylistResponseDto;
@@ -14,7 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -79,6 +80,51 @@ public class SongServiceLogic implements SongService {
             str = String.valueOf(songGenreRequestDto.getGenre()) + ",";
         }
         entity.updateGenre(str);
+    }
+
+    @Transactional
+    @Override
+    public List<SongResponseDto> sortAndsearch(List<SongResponseDto> songResponseDtos, String order, String search) {
+
+        List<SongResponseDto> resultSongResponseDtos = new ArrayList<>();
+
+        if (order == null && search == null) {  // 전체 메모들 리스트
+            resultSongResponseDtos = songResponseDtos;
+        }
+        else if (order != null && search == null) {  // 정렬
+            if (order.equals("all-song")) {
+                resultSongResponseDtos = songResponseDtos;
+            }
+            else if (order.equals("singer-song")) {
+                Comparator<SongResponseDto> comparator = Comparator.comparing(SongResponseDto::getSinger);
+                Collections.sort(songResponseDtos, comparator);
+                resultSongResponseDtos.addAll(songResponseDtos);
+            }
+            else if (order.equals("title-song")) {
+                Comparator<SongResponseDto> comparator = Comparator.comparing(SongResponseDto::getTitle);
+                Collections.sort(songResponseDtos, comparator);
+                resultSongResponseDtos.addAll(songResponseDtos);
+            }
+            else if (order.equals("genre-song")) {
+                Comparator<SongResponseDto> comparator = Comparator.comparing(SongResponseDto::getGenre, Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER));
+                resultSongResponseDtos.addAll(songResponseDtos.stream().sorted(comparator).collect(Collectors.toList()));
+                // null값의 데이터는 뒤로 보내고, 나머지는 오름차순 정렬함.
+            }
+            else {  // 잘못된 정렬 기준을 입력받았을 경우라면
+                throw new RuntimeException("ERROR - 잘못된 정렬기준 입력받음.");  // 잘못된 메모정렬기준 입력 예외처리.
+            }
+        }
+        else if (order == null && search != null) {  // 검색
+            resultSongResponseDtos = songResponseDtos.stream()
+                    .filter(songResponseDto ->
+                            (songResponseDto.getSinger() != null && songResponseDto.getSinger().contains(search)) ||
+                                    (songResponseDto.getTitle() != null && songResponseDto.getTitle().contains(search)) ||
+                                    (songResponseDto.getGenre() != null && songResponseDto.getGenre().contains(search))
+                    )
+                    .collect(Collectors.toList());
+        }
+
+        return resultSongResponseDtos;
     }
 
 

@@ -1,7 +1,5 @@
 package com.sahyunjin.smutify.controller;
 
-import com.sahyunjin.smutify.domain.user.User;
-import com.sahyunjin.smutify.dto.playlist.PlaylistNSongRequestDto;
 import com.sahyunjin.smutify.dto.playlist.PlaylistResponseDto;
 import com.sahyunjin.smutify.dto.song.SongGenreRequestDto;
 import com.sahyunjin.smutify.dto.song.SongResponseDto;
@@ -27,7 +25,9 @@ public class SongController {
 
 
     @GetMapping("/users/{userId}/search")  // song 목록들 모두 조회
-    public String getAllSongs(@PathVariable Long userId, Model model, HttpSession session) {
+    public String getAllSongs(@PathVariable Long userId, Model model, HttpSession session,
+                              @RequestParam(value = "order", required = false) String order,
+                              @RequestParam(value = "search", required = false) String search) {
 
         UserResponseDto loginUser;
         try {  // 로그인 체크
@@ -38,7 +38,8 @@ public class SongController {
         }
 
         List<SongResponseDto> songResponseDtos = songService.getAllSongs();
-        model.addAttribute("songResponseDtos", songResponseDtos);
+        List<SongResponseDto> resultSongResponseDtos = songService.sortAndsearch(songResponseDtos, order, search);
+        model.addAttribute("songResponseDtos", resultSongResponseDtos);
         model.addAttribute("userId", userId);
 
         List<Long> playlistIds = loginUser.getPlaylistIds();
@@ -70,7 +71,7 @@ public class SongController {
             System.out.println("ERROR - 중복! 이미 존재하는 장르입니다.");
             return "redirect:/users/" + loginUser.getId() + "/search";  // search 페이지로 리다이렉트
         }
-        return "redirect:/users/" + loginUser.getId() + "/search";  // search 페이지로 리다이렉트
+        return "redirect:/users/" + loginUser.getId() + "/search?order=all-song";  // search 페이지로 리다이렉트
     }
 
 

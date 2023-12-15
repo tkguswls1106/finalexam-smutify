@@ -6,15 +6,40 @@
 </head>
 
 <body>
-  <h1 style="display: inline;">< Search 페이지 (!! 주의: 로딩시간 오래걸립니다 !!) ></h1><br>
+  <br>
+  <h1 style="display: inline;">< Search 페이지 ></h1><br>
+  <h2 style="display: inline; color: red;">!!! 주의: 로딩시간 오래걸립니다 - 인터넷 탭창의 로딩이 끝날때까지 기다려주세요 !!!</h2><br>
   <button th:onclick="'location.href=\'' + @{/users/{userId}/main(userId=${userId})} + '\''">> Main 페이지로 이동하기</button>
+
+  <br><br><br>
+
+  <strong>-&nbsp&nbsp정렬:</strong>&nbsp&nbsp
+  <button th:onclick="'location.href=\'' + @{/users/{userId}/search(userId=${userId},order=${'all-song'})} + '\''">기본(id순) 정렬하기</button>
+  &nbsp/&nbsp
+  <button th:onclick="'location.href=\'' + @{/users/{userId}/search(userId=${userId},order=${'singer-song'})} + '\''">가수 이름순 정렬하기</button>
+  &nbsp/&nbsp
+  <button th:onclick="'location.href=\'' + @{/users/{userId}/search(userId=${userId},order=${'title-song'})} + '\''">노래 이름순 정렬하기</button>
+  &nbsp/&nbsp
+  <button th:onclick="'location.href=\'' + @{/users/{userId}/search(userId=${userId},order=${'genre-song'})} + '\''">장르 이름순 정렬하기</button>
 
   <br><br>
 
-  검색창 및 정렬
-  <!-- 여기 검색창 -->
+  <strong>-&nbsp&nbsp검색:</strong>&nbsp&nbsp
+  <form id="searchForm" style="display: inline;" method="get" th:action="@{'/users/' + ${userId} + '/search'}">
+    <input id="searchInput" name="search" placeholder="가수,노래,장르 검색하시오" th:value="${search}">&nbsp
+    <button type="button" onclick="submitForm()">검색 실시</button>
+  </form>
+  <script th:inline="javascript">
+      function submitForm() {
+          var userId = /*[[${userId}]]*/ '';
+          var searchInput = document.getElementById('searchInput').value;
+          var url = '/users/' + userId + '/search?search=' + encodeURIComponent(searchInput);
+          document.getElementById('searchForm').action = url;
+          document.getElementById('searchForm').submit();
+      }
+  </script>
 
-  <br>
+  <br><br>
 
   <h2>노래 목록들</h2>
   <ul>
@@ -65,12 +90,12 @@
 
 
   <script th:inline="javascript">
-    $(document).ready(function() {
-        $(".songToggle").click(function() {
-            $(this).next().next().next(".content").toggle();
-        });
-    });
-</script>
+      $(document).ready(function() {
+          $(".songToggle").click(function() {
+              $(this).next().next().next(".content").toggle();
+          });
+      });
+  </script>
 
 </body>
 </html>

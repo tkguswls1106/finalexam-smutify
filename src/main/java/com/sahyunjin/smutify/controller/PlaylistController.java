@@ -96,9 +96,9 @@ public class PlaylistController {
             playlistService.addSongForPlaylist(userId, playlistId, playlistAddSongRequestDto);
         } catch (RuntimeException e) {
             System.out.println("ERROR - 중복! 이미 플레이리스트에 존재하는 노래입니다.");
-            return "redirect:/users/" + loginUser.getId() + "/search";  // search 페이지로 리다이렉트
+            return "redirect:/users/" + loginUser.getId() + "/search?order=all-song";  // search 페이지로 리다이렉트
         }
-        return "redirect:/users/" + loginUser.getId() + "/search";  // search 페이지로 리다이렉트
+        return "redirect:/users/" + loginUser.getId() + "/search?order=all-song";  // search 페이지로 리다이렉트
     }
 
     @PostMapping("/playlists/{playlistId}/songs/{songId}")
@@ -128,7 +128,7 @@ public class PlaylistController {
         }
 
         playlistService.createPlaylistWithSong(userId, songId, playlistNSongRequestDto);
-        return "redirect:/users/" + loginUser.getId() + "/search";  // search 페이지로 리다이렉트
+        return "redirect:/users/" + loginUser.getId() + "/search?order=all-song";  // search 페이지로 리다이렉트
     }
 
 

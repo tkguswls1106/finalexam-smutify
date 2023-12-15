@@ -7,9 +7,7 @@
 <body>
   <h1>< Main 페이지 ></h1>
 
-  <br>
-
-  <button th:onclick="'location.href=\'' + @{/users/{userId}/search(userId=${userId})} + '\''">create playlist</button>
+  <button th:onclick="'location.href=\'' + @{/users/{userId}/search(userId=${userId},order=${'all-song'})} + '\''">create playlist</button>
 
   <br>
 
