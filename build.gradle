@@ -2,6 +2,13 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.17'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'war'
+}
+
+bootWar{
+	archivesBaseName = 'Sahyunjin'
+	archiveFileName = 'Sahyunjin.war'
+	archiveVersion = "0.0.0"
 }
 
 group = 'com.sahyunjin'
@@ -35,7 +42,7 @@ dependencies {
 	implementation('org.slf4j:jcl-over-slf4j')
 
 	// 밑은 war 빌드시에만 주석해제하고, 평소 로컬에서 run시킬때는 주석처리해두기.
-//	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 tasks.named('test') {
