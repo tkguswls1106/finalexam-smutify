@@ -76,6 +76,39 @@ public class PlaylistServiceLogic implements PlaylistService {
 
     @Transactional
     @Override
+    public void removeSongForPlaylist(Long playlistId, Long songId) {
+
+        // playlist 관련
+
+        Playlist entityP = playlistJpaRepository.findById(playlistId)
+                .orElseThrow(() -> new RuntimeException("ERROR - 해당 id의 플레이리스트는 존재하지 않습니다."));
+        List<Long> songIds = getSongIdList(entityP.getSongIds());
+        songIds.removeIf(id -> id.equals(songId));
+
+        String str1 = null;
+        for(Long songId2 : songIds) {
+            if(str1 == null) str1 = (String.valueOf(songId2) + "p");
+            else str1 += (String.valueOf(songId2) + "p");
+        }
+        entityP.updateSongIds(str1);
+
+        // song 관련
+
+        Song entityS = songJapRepository.findById(songId)
+                .orElseThrow(() -> new RuntimeException("ERROR - 해당 id의 노래는 존재하지 않습니다."));
+        List<Long> playlistIds = getPlaylistIdList(entityS.getPlaylistIds());
+        playlistIds.removeIf(id -> id.equals(playlistId));
+
+        String str2 = null;
+        for(Long playlistId2 : playlistIds) {
+            if(str2 == null) str2 = (String.valueOf(playlistId2) + "p");
+            else str2 += (String.valueOf(playlistId2) + "p");
+        }
+        entityS.updatePlaylistIds(str2);
+    }
+
+    @Transactional
+    @Override
     public void createPlaylistWithSong(Long userId, Long songId, PlaylistNSongRequestDto playlistNSongRequestDto) {
 
         Playlist entity = playlistNSongRequestDto.toEntity(userId, songId);
@@ -121,5 +154,20 @@ public class PlaylistServiceLogic implements PlaylistService {
         }
 
         return songIdList;
+    }
+
+    public List<Long> getPlaylistIdList(String playlistIdStr) {
+        if (playlistIdStr == null) {
+            return new ArrayList<Long>();
+        }
+        String beforeParsing = playlistIdStr;
+        String[] afterParsing = beforeParsing.split("p");
+
+        List<Long> playlistIdList = new ArrayList<>();
+        for (String playlistId : afterParsing) {
+            playlistIdList.add(Long.parseLong(playlistId));
+        }
+
+        return playlistIdList;
     }
 }

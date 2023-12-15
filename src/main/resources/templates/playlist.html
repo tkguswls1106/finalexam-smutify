@@ -26,8 +26,7 @@
       <br>
       <strong>-&nbsp&nbsp장르:</strong>&nbsp&nbsp<span th:if="${songSmallResponseDto.genre != null}" th:text="${songSmallResponseDto.genre.substring(0, songSmallResponseDto.genre.lastIndexOf(','))}"></span><span th:if="${songSmallResponseDto.genre == null}">장르 미정</span>
 
-      <form method="post" th:action="@{/playlists/{playlistId}/songs/{songId}(playlistId=${playlistResponseDto.id},songId=${songResponseDto.id})}">
-        <input type="hidden" name="_method" value="put">
+      <form method="post" th:action="@{/playlists/{playlistId}/songs/{songId}(playlistId=${playlistResponseDto.id},songId=${songSmallResponseDto.id})}">
         <button type="submit">플레이리스트에서 노래 삭제</button>
       </form>
 

@@ -8,5 +8,6 @@ public interface PlaylistService {
 
     PlaylistResponseDto findById(Long playlistId);
     void addSongForPlaylist(Long userId, Long playlistId, PlaylistAddSongRequestDto playlistAddSongRequestDto);
+    void removeSongForPlaylist(Long playlistId, Long songId);
     void createPlaylistWithSong(Long userId, Long songId, PlaylistNSongRequestDto playlistNSongRequestDto);
 }
