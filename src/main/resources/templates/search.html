@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <h1>< Search 페이지 ></h1>
+  <h1>< Search 페이지 (로딩시간 조금 더 걸립니다) ></h1>
 
   <br>
 
@@ -26,18 +26,22 @@
       <strong>-&nbsp&nbsp장르:</strong>&nbsp&nbsp<span th:text="${songResponseDto.genre}"></span>
       <br><br>
 
-      -------------<br>
-      <button id="toggleButton">플레이리스트에 노래 추가 (내 플레이리스트 목록 조회)</button>
-      <div id="content" style="display: none;">
+      -----------------<br>
+      <button class="songToggle">플레이리스트에 노래 추가 (내 플레이리스트 목록 조회)</button>
+      <div class="content" style="display: none;">
         <ul>
           <li th:each="playlist : ${songResponseDto.playlists}">
             <strong><span th:text="${playlist.title}" th:if="${playlist.makerUserId == userId}"></span></strong>
           </li>
         </ul>
         <br>
-        <button>새로운 플레이리스트에 노래 추가</button>
-        <br>
-        -------------
+        ------<br>
+        <form method="post" th:action="@{/users/{userId}/playlists/songs/{songId}(userId=${userId},songId=${songResponseDto.id})}">
+          <input name="title" placeholder="플레이리스트 제목 입력"><br>
+          <input name="content" placeholder="플레이리스트 내용 입력"><br>
+          <button type="submit">새로운 플레이리스트를 생성하여 이 노래 추가</button>
+        </form>
+        -----------------
       </div>
 
       <hr>
@@ -47,11 +51,11 @@
 
   <script th:inline="javascript">
     $(document).ready(function() {
-        $("#toggleButton").click(function() {
-            $("#content").toggle();
+        $(".songToggle").click(function() {
+            $(this).next(".content").toggle();
         });
     });
-  </script>
+</script>
 
 </body>
 </html>

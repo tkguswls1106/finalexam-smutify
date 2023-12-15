@@ -34,4 +34,10 @@ public class Song implements Serializable {
     @Column(name = "playlistIds", columnDefinition = "TEXT default null")
     private String playlistIds;
     // 파싱법: 1p2p...
+
+
+    // 수정(업데이트) 기능
+    public void updatePlaylistIds(String playlistIdStr) {  // 패스워드 변경 기능
+        this.playlistIds = playlistIdStr;
+    }
 }

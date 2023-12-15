@@ -1,9 +1,6 @@
 package com.sahyunjin.smutify.domain.playlist;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -34,4 +31,13 @@ public class Playlist {
     @Column(name = "songIds", columnDefinition = "TEXT default null")
     private String songIds;
     // 파싱법: 1p2p...
+
+
+    @Builder(builderClassName = "PlaylistNSongBuilder", builderMethodName = "PlaylistNSongBuilder")
+    public Playlist(String title, String content, Long userId, Long songId) {
+        this.title = title;
+        this.content = content;
+        this.makerUserId = userId;
+        this.songIds = (String.valueOf(songId) + "p");
+    }
 }

@@ -31,4 +31,10 @@ public class User implements Serializable {
     public User(String username) {
         this.username = username;
     }
+
+
+    // 수정(업데이트) 기능
+    public void updatePlaylistIds(String playlistIdStr) {  // 패스워드 변경 기능
+        this.playlistIds = playlistIdStr;
+    }
 }
