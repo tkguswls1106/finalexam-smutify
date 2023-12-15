@@ -62,7 +62,11 @@ public class PlaylistController {
             return "redirect:/login";
         }
 
-        playlistService.addSongForPlaylist(userId, playlistId, playlistAddSongRequestDto);
+        try {
+            playlistService.addSongForPlaylist(userId, playlistId, playlistAddSongRequestDto);
+        } catch (RuntimeException e) {
+            return "redirect:/users/" + loginUser.getId() + "/main";  // main 페이지로 리다이렉트
+        }
         return "redirect:/users/" + loginUser.getId() + "/main";  // main 페이지로 리다이렉트
     }
 

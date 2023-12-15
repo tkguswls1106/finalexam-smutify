@@ -26,7 +26,7 @@ public class UserServiceLogic implements UserService {
         String newUsername = userSignupRequestDto.getUsername();
         userJpaRepository.findByUsername(newUsername)
                 .ifPresent(user -> {  // 해당 로그인이름의 사용자가 이미 존재한다면,
-                    throw new RuntimeException("ERROR - 이미 존재하는 계정 입니다.");
+                    throw new RuntimeException("ERROR - 중복! 이미 존재하는 계정 입니다.");
                 });
 
         User entity = userJpaRepository.save(userSignupRequestDto.toEntity());

@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,6 +47,13 @@ public class PlaylistServiceLogic implements PlaylistService {
                 .orElseThrow(() -> new RuntimeException("ERROR - 해당 id의 플레이리스트는 존재하지 않습니다."));
         Song entityS = songJapRepository.findById(playlistAddSongRequestDto.getSongId())
                 .orElseThrow(() -> new RuntimeException("ERROR - 해당 id의 노래는 존재하지 않습니다."));
+
+        // 중복추가 막기
+        String songIdsStr = entityP.getSongIds();
+        List<Long> songIdList = getSongIdList(songIdsStr);
+        if (songIdList.contains(playlistAddSongRequestDto.getSongId())) {
+            throw new RuntimeException("ERROR - 중복! 이미 플레이리스트에 존재하는 노래입니다.");
+        }
 
         String str1;
         if(entityP.getSongIds() != null) {
@@ -94,5 +103,23 @@ public class PlaylistServiceLogic implements PlaylistService {
             str2 = String.valueOf(entityP.getId()) + "p";
         }
         entityS.updatePlaylistIds(str2);
+    }
+
+
+    // ----- 기타 사용 메소드들 ----- //
+
+    public List<Long> getSongIdList(String songIdStr) {
+        if (songIdStr == null) {
+            return new ArrayList<Long>();
+        }
+        String beforeParsing = songIdStr;
+        String[] afterParsing = beforeParsing.split("p");
+
+        List<Long> songIdList = new ArrayList<>();
+        for (String songId : afterParsing) {
+            songIdList.add(Long.parseLong(songId));
+        }
+
+        return songIdList;
     }
 }
