@@ -3,6 +3,7 @@ package com.sahyunjin.smutify.controller;
 import com.sahyunjin.smutify.domain.playlist.Playlist;
 import com.sahyunjin.smutify.domain.user.User;
 import com.sahyunjin.smutify.dto.playlist.PlaylistResponseDto;
+import com.sahyunjin.smutify.dto.user.UserResponseDto;
 import com.sahyunjin.smutify.service.PlaylistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,9 @@ public class PlaylistController {
     @GetMapping("/users/{userId}/main")  // playlist 목록들 모두 조회 (제목 오름차순 정렬)
     public String getAllPlaylists(@PathVariable Long userId, Model model, HttpSession session) {
 
-        User loginUser;
+        if(session == null) System.out.println("세션 눌값임!!");
+
+        UserResponseDto loginUser;
         try {  // 로그인 체크
             loginUser = loginCheckSession(session);
         }
@@ -33,8 +36,7 @@ public class PlaylistController {
             return "redirect:/login";
         }
 
-        String playlistIdsStr = loginUser.getPlaylistIds();
-        List<Long> playlistIds = getPlaylistIdList(playlistIdsStr);
+        List<Long> playlistIds = loginUser.getPlaylistIds();
 
         List<PlaylistResponseDto> playlistResponseDtos = new ArrayList<PlaylistResponseDto>();
         for (Long playlistId : playlistIds) {
@@ -52,27 +54,12 @@ public class PlaylistController {
 
     // ----- 기타 사용 메소드들 ----- //
 
-    public User loginCheckSession(HttpSession session) {  // 로그인 체크용 메소드
-        User user = (User) session.getAttribute("user");
-        if (user != null) {  // 로그인되어있는 경우
-            return user;
+    public UserResponseDto loginCheckSession(HttpSession session) {  // 로그인 체크용 메소드
+        UserResponseDto userResponseDto = (UserResponseDto) session.getAttribute("user");
+        if (userResponseDto != null) {  // 로그인되어있는 경우
+            return userResponseDto;
         } else {
             throw new RuntimeException("ERROR - 로그인이 되어있지않습니다.");
         }
-    }
-
-    public List<Long> getPlaylistIdList(String playlistIdStr) {
-        if (playlistIdStr == null) {
-            return new ArrayList<Long>();
-        }
-        String beforeParsing = playlistIdStr;
-        String[] afterParsing = beforeParsing.split("p");
-
-        List<Long> playlistIdList = new ArrayList<>();
-        for (String playlistId : afterParsing) {
-            playlistIdList.add(Long.parseLong(playlistId));
-        }
-
-        return playlistIdList;
     }
 }
