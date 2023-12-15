@@ -9,23 +9,23 @@
   <br>
   <h1 style="display: inline;">< Search 페이지 ></h1><br>
   <h2 style="display: inline; color: red;">!!! 주의: 로딩시간 오래걸립니다 - 인터넷 탭창의 로딩이 끝날때까지 기다려주세요 !!!</h2><br>
-  <button th:onclick="'location.href=\'' + @{/users/{userId}/main(userId=${userId})} + '\''">> Main 페이지로 이동하기</button>
+  <button th:onclick="'location.href=\'' + @{/201921003/users/{userId}/main(userId=${userId})} + '\''">> Main 페이지로 이동하기</button>
 
   <br><br><br>
 
   <strong>-&nbsp&nbsp정렬:</strong>&nbsp&nbsp
-  <button th:onclick="'location.href=\'' + @{/users/{userId}/search(userId=${userId},order=${'all-song'})} + '\''">기본(id순) 정렬하기</button>
+  <button th:onclick="'location.href=\'' + @{/201921003/users/{userId}/search(userId=${userId},order=${'all-song'})} + '\''">기본(id순) 정렬하기</button>
   &nbsp/&nbsp
-  <button th:onclick="'location.href=\'' + @{/users/{userId}/search(userId=${userId},order=${'singer-song'})} + '\''">가수 이름순 정렬하기</button>
+  <button th:onclick="'location.href=\'' + @{/201921003/users/{userId}/search(userId=${userId},order=${'singer-song'})} + '\''">가수 이름순 정렬하기</button>
   &nbsp/&nbsp
-  <button th:onclick="'location.href=\'' + @{/users/{userId}/search(userId=${userId},order=${'title-song'})} + '\''">노래 이름순 정렬하기</button>
+  <button th:onclick="'location.href=\'' + @{/201921003/users/{userId}/search(userId=${userId},order=${'title-song'})} + '\''">노래 이름순 정렬하기</button>
   &nbsp/&nbsp
-  <button th:onclick="'location.href=\'' + @{/users/{userId}/search(userId=${userId},order=${'genre-song'})} + '\''">장르 이름순 정렬하기</button>
+  <button th:onclick="'location.href=\'' + @{/201921003/users/{userId}/search(userId=${userId},order=${'genre-song'})} + '\''">장르 이름순 정렬하기</button>
 
   <br><br>
 
   <strong>-&nbsp&nbsp검색:</strong>&nbsp&nbsp
-  <form id="searchForm" style="display: inline;" method="get" th:action="@{'/users/' + ${userId} + '/search'}">
+  <form id="searchForm" style="display: inline;" method="get" th:action="@{'/201921003/users/' + ${userId} + '/search'}">
     <input id="searchInput" name="search" placeholder="가수,노래,장르 검색하시오" th:value="${search}">&nbsp
     <button type="button" onclick="submitForm()">검색 실시</button>
   </form>
@@ -33,7 +33,7 @@
       function submitForm() {
           var userId = /*[[${userId}]]*/ '';
           var searchInput = document.getElementById('searchInput').value;
-          var url = '/users/' + userId + '/search?search=' + encodeURIComponent(searchInput);
+          var url = '/201921003/users/' + userId + '/search?search=' + encodeURIComponent(searchInput);
           document.getElementById('searchForm').action = url;
           document.getElementById('searchForm').submit();
       }
@@ -52,7 +52,7 @@
       <br>
       <strong>-&nbsp&nbsp장르:</strong>&nbsp&nbsp<span th:if="${songResponseDto.genre != null}" th:text="${songResponseDto.genre.substring(0, songResponseDto.genre.lastIndexOf(','))}"></span><span th:if="${songResponseDto.genre == null}">장르 미정</span>
 
-      <form method="post" th:action="@{/songs/{songId}(songId=${songResponseDto.id})}">
+      <form method="post" th:action="@{/201921003/songs/{songId}(songId=${songResponseDto.id})}">
         <input type="hidden" name="_method" value="put">
         <input name="genre" placeholder="추가할 장르 입력"><br>
         <button type="submit">장르 추가완료</button>
@@ -67,7 +67,7 @@
         <ul>
           <li th:each="playlist : ${playlists}">
             <strong><span th:text="${playlist.title}"></span></strong>&nbsp
-            <form method="post" style="display: inline;" th:action="@{/users/{userId}/playlists/{playlistId}(userId=${userId},playlistId=${playlist.id})}">
+            <form method="post" style="display: inline;" th:action="@{/201921003/users/{userId}/playlists/{playlistId}(userId=${userId},playlistId=${playlist.id})}">
               <input type="hidden" name="songId" th:value="${songResponseDto.id}">
               <button type="submit"><- 추가완료</button>
             </form>
@@ -76,7 +76,7 @@
         <br>
         ------
         <strong><div>+ 새로운 플레이리스트를 생성하고 노래 추가</div></strong>
-        <form method="post" th:action="@{/users/{userId}/playlists/songs/{songId}(userId=${userId},songId=${songResponseDto.id})}">
+        <form method="post" th:action="@{/201921003/users/{userId}/playlists/songs/{songId}(userId=${userId},songId=${songResponseDto.id})}">
           <input name="title" placeholder="플레이리스트 제목 입력"><br>
           <input name="content" placeholder="플레이리스트 내용 입력"><br>
           <button type="submit">추가완료</button>

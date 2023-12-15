@@ -6,11 +6,11 @@
 
 <body>
   <h1>Login 페이지</h1>
-  <form method="post" action="/login">
+  <form method="post" action="/201921003/login">
     <input type="text" name="username" placeholder="username 입력">
     <button type="submit">제출</button>
   </form>
   <br>
-  <button th:onclick="'location.href=\'' + @{/signup} + '\''">SignUp으로 이동</button>
+  <button th:onclick="'location.href=\'' + @{/201921003/signup} + '\''">SignUp으로 이동</button>
 </body>
 </html>

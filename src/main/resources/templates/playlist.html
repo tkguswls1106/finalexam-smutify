@@ -7,7 +7,7 @@
 <body>
   <br>
   <h1 style="display: inline;">< Playlist 페이지 ></h1><br>
-  <button th:onclick="'location.href=\'' + @{/users/{userId}/main(userId=${userId})} + '\''">> Main 페이지로 이동하기</button>
+  <button th:onclick="'location.href=\'' + @{/201921003/users/{userId}/main(userId=${userId})} + '\''">> Main 페이지로 이동하기</button>
 
   <br><br>
 
@@ -27,7 +27,7 @@
       <br>
       <strong>-&nbsp&nbsp장르:</strong>&nbsp&nbsp<span th:if="${songSmallResponseDto.genre != null}" th:text="${songSmallResponseDto.genre.substring(0, songSmallResponseDto.genre.lastIndexOf(','))}"></span><span th:if="${songSmallResponseDto.genre == null}">장르 미정</span>
 
-      <form method="post" th:action="@{/playlists/{playlistId}/songs/{songId}(playlistId=${playlistResponseDto.id},songId=${songSmallResponseDto.id})}">
+      <form method="post" th:action="@{/201921003/playlists/{playlistId}/songs/{songId}(playlistId=${playlistResponseDto.id},songId=${songSmallResponseDto.id})}">
         <button type="submit">플레이리스트에서 노래 삭제</button>
       </form>
 

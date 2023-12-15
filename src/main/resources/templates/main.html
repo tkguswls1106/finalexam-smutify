@@ -5,11 +5,12 @@
 </head>
 
 <body>
-  <h1>< Main 페이지 ></h1>
-
-  <button th:onclick="'location.href=\'' + @{/users/{userId}/search(userId=${userId},order=${'all-song'})} + '\''">create playlist</button>
-
   <br>
+  <h1 style="display: inline;">< Main 페이지 ></h1><br>
+  <h2 style="display: inline; color: red;">!!! 주의: 새로운 데이터가 바로 안뜰시에는, 캐시 및 로딩때문이므로 재로그인 해주시면 됩니다 !!!</h2><br><br>
+  <button th:onclick="'location.href=\'' + @{/201921003/users/{userId}/search(userId=${userId},order=${'all-song'})} + '\''">create playlist</button>
+
+  <br><br>
 
   <style>
     .playlist-item {
@@ -30,7 +31,7 @@
   <ul>
     <li th:each="playlistResponseDto : ${playlistResponseDtos}">
 <!--      <hr>-->
-      <div class="playlist-item" th:onclick="'location.href=\'' + @{/playlists/{playlistId}(playlistId=${playlistResponseDto.id})} + '\''">
+      <div class="playlist-item" th:onclick="'location.href=\'' + @{/201921003/playlists/{playlistId}(playlistId=${playlistResponseDto.id})} + '\''">
         <strong><span th:text="${playlistResponseDto.title}"></span></strong>
       </div>
 <!--      <hr>-->
