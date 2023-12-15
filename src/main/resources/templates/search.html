@@ -6,10 +6,12 @@
 </head>
 
 <body>
-  <h1>< Search 페이지 (!주의: 로딩시간 오래걸립니다!) ></h1>
+  <h1 style="display: inline;">< Search 페이지 (!! 주의: 로딩시간 오래걸립니다 !!) ></h1><br>
+  <button th:onclick="'location.href=\'' + @{/users/{userId}/main(userId=${userId})} + '\''">> Main 페이지로 이동하기</button>
 
-  <br>
+  <br><br>
 
+  검색창 및 정렬
   <!-- 여기 검색창 -->
 
   <br>

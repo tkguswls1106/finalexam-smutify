@@ -68,9 +68,9 @@ public class SongController {
             songService.updateGenre(songId, songGenreRequestDto);
         } catch (RuntimeException e) {
             System.out.println("ERROR - 중복! 이미 존재하는 장르입니다.");
-            return "redirect:/users/" + loginUser.getId() + "/main";  // main 페이지로 리다이렉트
+            return "redirect:/users/" + loginUser.getId() + "/search";  // search 페이지로 리다이렉트
         }
-        return "redirect:/users/" + loginUser.getId() + "/main";  // main 페이지로 리다이렉트
+        return "redirect:/users/" + loginUser.getId() + "/search";  // search 페이지로 리다이렉트
     }
 
 
