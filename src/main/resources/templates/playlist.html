@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Playlist 페이지</title>
+</head>
+
+<body>
+  <h1 style="display: inline;">< Playlist 페이지 ></h1><br>
+  <button th:onclick="'location.href=\'' + @{/users/{userId}/main(userId=${userId})} + '\''">> Main 페이지로 이동하기</button>
+
+  <br><br>
+
+  <strong>-&nbsp&nbsp플레이리스트 제목:</strong>&nbsp&nbsp<span th:text="${playlistResponseDto.title}"></span><br>
+  <strong>-&nbsp&nbsp플레이리스트 내용:</strong>&nbsp&nbsp<span th:text="${playlistResponseDto.content}"></span>
+
+  <br><br>
+
+  <h2>노래 목록들</h2>
+  <ul>
+    <li th:each="songSmallResponseDto : ${songSmallResponseDtos}">
+      <hr>
+
+      <strong>-&nbsp&nbsp가수 이름:</strong>&nbsp&nbsp<span th:text="${songSmallResponseDto.singer}"></span>
+      <br>
+      <strong>-&nbsp&nbsp노래 제목:</strong>&nbsp&nbsp<span th:text="${songSmallResponseDto.title}"></span>
+      <br>
+      <strong>-&nbsp&nbsp장르:</strong>&nbsp&nbsp<span th:if="${songSmallResponseDto.genre != null}" th:text="${songSmallResponseDto.genre.substring(0, songSmallResponseDto.genre.lastIndexOf(','))}"></span><span th:if="${songSmallResponseDto.genre == null}">장르 미정</span>
+
+      <form method="post" th:action="@{/playlists/{playlistId}/songs/{songId}(playlistId=${playlistResponseDto.id},songId=${songResponseDto.id})}">
+        <input type="hidden" name="_method" value="put">
+        <button type="submit">플레이리스트에서 노래 삭제</button>
+      </form>
+
+      <hr>
+    </li>
+  </ul>
+
+</body>
+</html>

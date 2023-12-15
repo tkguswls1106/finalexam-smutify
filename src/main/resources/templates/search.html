@@ -25,8 +25,7 @@
       <br>
       <strong>-&nbsp&nbsp노래 제목:</strong>&nbsp&nbsp<span th:text="${songResponseDto.title}"></span>
       <br>
-      <strong>-&nbsp&nbsp장르:</strong>&nbsp&nbsp<span th:if="${songResponseDto.genre != null}" th:text="${songResponseDto.genre.substring(0, songResponseDto.genre.lastIndexOf(','))}"></span>
-      <span th:if="${songResponseDto.genre == null}">장르 미정</span>
+      <strong>-&nbsp&nbsp장르:</strong>&nbsp&nbsp<span th:if="${songResponseDto.genre != null}" th:text="${songResponseDto.genre.substring(0, songResponseDto.genre.lastIndexOf(','))}"></span><span th:if="${songResponseDto.genre == null}">장르 미정</span>
 
       <form method="post" th:action="@{/songs/{songId}(songId=${songResponseDto.id})}">
         <input type="hidden" name="_method" value="put">

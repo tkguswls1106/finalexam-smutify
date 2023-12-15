@@ -13,14 +13,29 @@
 
   <br>
 
-  <h2>Playlist 목록들(제목)</h2>
+  <style>
+    .playlist-item {
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        padding: 5px;
+        border: 1px solid #ccc;
+        margin-bottom: 5px;
+    }
+
+    .playlist-item:hover {
+        background-color: #f0f0f0;
+    }
+  </style>
+
+  <h2>- Playlist 목록들(제목) -</h2>
+  <h3>클릭시 해당 플레이리스트를 조회합니다</h3>
   <ul>
     <li th:each="playlistResponseDto : ${playlistResponseDtos}">
-      <hr>
-      <strong><span th:text="${playlistResponseDto.title}"></span></strong>
-      &nbsp&nbsp
-      <button>삭제</button>
-      <hr>
+<!--      <hr>-->
+      <div class="playlist-item" th:onclick="'location.href=\'' + @{/playlists/{playlistId}(playlistId=${playlistResponseDto.id})} + '\''">
+        <strong><span th:text="${playlistResponseDto.title}"></span></strong>
+      </div>
+<!--      <hr>-->
     </li>
   </ul>
 

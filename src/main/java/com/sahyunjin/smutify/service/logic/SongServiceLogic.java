@@ -1,11 +1,13 @@
 package com.sahyunjin.smutify.service.logic;
 
+import com.sahyunjin.smutify.domain.playlist.Playlist;
 import com.sahyunjin.smutify.domain.playlist.PlaylistJpaRepository;
 import com.sahyunjin.smutify.domain.song.Song;
 import com.sahyunjin.smutify.domain.song.SongJapRepository;
 import com.sahyunjin.smutify.dto.playlist.PlaylistResponseDto;
 import com.sahyunjin.smutify.dto.song.SongGenreRequestDto;
 import com.sahyunjin.smutify.dto.song.SongResponseDto;
+import com.sahyunjin.smutify.dto.song.SongSmallResponseDto;
 import com.sahyunjin.smutify.service.SongService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,6 +46,16 @@ public class SongServiceLogic implements SongService {
         }
 
         return songResponseDtos;
+    }
+
+    @Transactional
+    @Override
+    public SongSmallResponseDto findById(Long songId) {
+
+        Song entity = songJapRepository.findById(songId)
+                .orElseThrow(() -> new RuntimeException("ERROR - 해당 id의 노래는 존재하지 않습니다."));
+
+        return new SongSmallResponseDto(entity);
     }
 
     @Transactional
