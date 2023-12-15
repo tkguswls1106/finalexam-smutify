@@ -23,11 +23,17 @@
       <br>
       <strong>-&nbsp&nbsp노래 제목:</strong>&nbsp&nbsp<span th:text="${songResponseDto.title}"></span>
       <br>
-      <strong>-&nbsp&nbsp장르:</strong>&nbsp&nbsp<span th:if="${songResponseDto.genre != null}" th:text="${songResponseDto.genre}"></span>
+      <strong>-&nbsp&nbsp장르:</strong>&nbsp&nbsp<span th:if="${songResponseDto.genre != null}" th:text="${songResponseDto.genre.substring(0, songResponseDto.genre.lastIndexOf(','))}"></span>
       <span th:if="${songResponseDto.genre == null}">장르 미정</span>
-      <br><br>
 
-      <button class="songToggle">플레이리스트에 추가 (추가 옵션 열기)</button>
+      <form method="post" th:action="@{/songs/{songId}(songId=${songResponseDto.id})}">
+        <input type="hidden" name="_method" value="put">
+        <input name="genre" placeholder="추가할 장르 입력"><br>
+        <button type="submit">장르 추가완료</button>
+      </form>
+      <br>
+
+      <button class="songToggle">=> 플레이리스트에 추가 (추가 옵션 열기)</button>
       <br>
       -----------------<br>
       <div class="content" style="display: none;">

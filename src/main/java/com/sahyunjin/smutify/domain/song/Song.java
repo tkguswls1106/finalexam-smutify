@@ -40,4 +40,7 @@ public class Song implements Serializable {
     public void updatePlaylistIds(String playlistIdStr) {  // 패스워드 변경 기능
         this.playlistIds = playlistIdStr;
     }
+    public void updateGenre(String genre) {  // 패스워드 변경 기능
+        this.genre = genre;
+    }
 }

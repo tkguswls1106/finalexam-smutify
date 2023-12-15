@@ -1,7 +1,9 @@
 package com.sahyunjin.smutify.controller;
 
 import com.sahyunjin.smutify.domain.user.User;
+import com.sahyunjin.smutify.dto.playlist.PlaylistNSongRequestDto;
 import com.sahyunjin.smutify.dto.playlist.PlaylistResponseDto;
+import com.sahyunjin.smutify.dto.song.SongGenreRequestDto;
 import com.sahyunjin.smutify.dto.song.SongResponseDto;
 import com.sahyunjin.smutify.dto.user.UserResponseDto;
 import com.sahyunjin.smutify.service.PlaylistService;
@@ -9,8 +11,7 @@ import com.sahyunjin.smutify.service.SongService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -51,6 +52,27 @@ public class SongController {
 
         return "search";
     }
+
+    @PutMapping("/songs/{songId}")
+    public String updateGenre(@PathVariable Long songId, @ModelAttribute SongGenreRequestDto songGenreRequestDto, HttpSession session) {
+
+        UserResponseDto loginUser;
+        try {  // 로그인 체크
+            loginUser = loginCheckSession(session);
+        }
+        catch (RuntimeException e) {  // 로그인이 안되어있을시, 로그인창으로 강제 리다이렉트
+            return "redirect:/login";
+        }
+
+        try {
+            songService.updateGenre(songId, songGenreRequestDto);
+        } catch (RuntimeException e) {
+            System.out.println("ERROR - 중복! 이미 존재하는 장르입니다.");
+            return "redirect:/users/" + loginUser.getId() + "/main";  // main 페이지로 리다이렉트
+        }
+        return "redirect:/users/" + loginUser.getId() + "/main";  // main 페이지로 리다이렉트
+    }
+
 
     // ----- 기타 사용 메소드들 ----- //
 
