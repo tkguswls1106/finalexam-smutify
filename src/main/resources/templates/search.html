@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <h1>< Search 페이지 (로딩시간 조금 더 걸립니다) ></h1>
+  <h1>< Search 페이지 (!주의: 로딩시간 오래걸립니다!) ></h1>
 
   <br>
 
@@ -33,8 +33,8 @@
       <div class="content" style="display: none;">
         <strong><div>+ 기존의 내 플레이리스트에 노래 추가</div></strong>
         <ul>
-          <li th:each="playlist : ${songResponseDto.playlists}">
-            <strong><span th:text="${playlist.title}" th:if="${playlist.makerUserId == userId}"></span></strong>&nbsp
+          <li th:each="playlist : ${playlists}">
+            <strong><span th:text="${playlist.title}"></span></strong>&nbsp
             <form method="post" style="display: inline;" th:action="@{/users/{userId}/playlists/{playlistId}(userId=${userId},playlistId=${playlist.id})}">
               <input type="hidden" name="songId" th:value="${songResponseDto.id}">
               <button type="submit"><- 추가완료</button>

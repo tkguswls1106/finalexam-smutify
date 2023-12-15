@@ -4,6 +4,7 @@ import com.sahyunjin.smutify.domain.user.User;
 import com.sahyunjin.smutify.dto.playlist.PlaylistResponseDto;
 import com.sahyunjin.smutify.dto.song.SongResponseDto;
 import com.sahyunjin.smutify.dto.user.UserResponseDto;
+import com.sahyunjin.smutify.service.PlaylistService;
 import com.sahyunjin.smutify.service.SongService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SongController {
 
+    private final PlaylistService playlistService;
     private final SongService songService;
 
 
@@ -35,9 +37,17 @@ public class SongController {
         }
 
         List<SongResponseDto> songResponseDtos = songService.getAllSongs();
-
         model.addAttribute("songResponseDtos", songResponseDtos);
         model.addAttribute("userId", userId);
+
+        List<Long> playlistIds = loginUser.getPlaylistIds();
+        List<PlaylistResponseDto> playlistResponseDtos = new ArrayList<PlaylistResponseDto>();
+        for (Long playlistId : playlistIds) {
+            PlaylistResponseDto playlistResponseDto = playlistService.findById(playlistId);
+            playlistResponseDtos.add(playlistResponseDto);
+        }
+        playlistResponseDtos.sort(Comparator.comparing(PlaylistResponseDto::getTitle));
+        model.addAttribute("playlists", playlistResponseDtos);
 
         return "search";
     }

@@ -41,17 +41,28 @@ public class PlaylistServiceLogic implements PlaylistService {
     @Override
     public void addSongForPlaylist(Long userId, Long playlistId, PlaylistAddSongRequestDto playlistAddSongRequestDto) {
 
-        Playlist entity = playlistJpaRepository.findById(playlistId)
+        Playlist entityP = playlistJpaRepository.findById(playlistId)
                 .orElseThrow(() -> new RuntimeException("ERROR - 해당 id의 플레이리스트는 존재하지 않습니다."));
+        Song entityS = songJapRepository.findById(playlistAddSongRequestDto.getSongId())
+                .orElseThrow(() -> new RuntimeException("ERROR - 해당 id의 노래는 존재하지 않습니다."));
 
-        String str;
-        if(entity.getSongIds() != null) {
-            str = (entity.getSongIds() + String.valueOf(playlistAddSongRequestDto.getSongId()) + "p");
+        String str1;
+        if(entityP.getSongIds() != null) {
+            str1 = (entityP.getSongIds() + String.valueOf(playlistAddSongRequestDto.getSongId()) + "p");
         }
         else {
-            str = String.valueOf(playlistAddSongRequestDto.getSongId()) + "p";
+            str1 = String.valueOf(playlistAddSongRequestDto.getSongId()) + "p";
         }
-        entity.updateSongIds(str);
+        entityP.updateSongIds(str1);
+
+        String str2;
+        if(entityS.getPlaylistIds() != null) {
+            str2 = (entityS.getPlaylistIds() + String.valueOf(playlistId) + "p");
+        }
+        else {
+            str2 = String.valueOf(playlistId) + "p";
+        }
+        entityS.updatePlaylistIds(str2);
     }
 
     @Transactional
